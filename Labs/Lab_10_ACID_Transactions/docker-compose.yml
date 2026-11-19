@@ -1,0 +1,19 @@
+services:
+  api:
+    build: .
+    container_name: lab10-api
+    environment:
+      MONGO_URI: "mongodb://mongo1:27017,mongo2:27017,mongo3:27017/?replicaSet=rs0&retryWrites=true&w=majority&serverSelectionTimeoutMS=10000"
+      DB_NAME: "lab10_app"
+      FREE_TRIALS: "3"
+      APP_BASE_URL: "${APP_BASE_URL:-http://localhost:8010}"
+    ports:
+      - "8010:8000"
+    networks:
+      - lab10network
+    restart: unless-stopped
+
+networks:
+  lab10network:
+    external: true
+    name: lab10_acid_net

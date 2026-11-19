@@ -1,0 +1,77 @@
+services:
+  keyfile-init:
+    image: alpine:3.20
+    command: ["/bin/sh", "-ec", "if [ ! -s /keydir/keyfile ]; then apk add --no-cache openssl >/dev/null; openssl rand -base64 756 > /keydir/keyfile; fi; chown 999:999 /keydir/keyfile; chmod 400 /keydir/keyfile"]
+    volumes:
+      - lab13_keyfile:/keydir
+    restart: "no"
+
+  mongo1:
+    image: mongo:7
+    container_name: lab13-mongo-1
+    hostname: mongo1
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--auth", "--keyFile", "/etc/mongodb-keyfile/keyfile"]
+    ports: ["27217:27017"]
+    volumes: ["mongo1_data:/data/db", "lab13_keyfile:/etc/mongodb-keyfile:ro"]
+    networks: [lab13-net]
+    depends_on:
+      keyfile-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  mongo2:
+    image: mongo:7
+    container_name: lab13-mongo-2
+    hostname: mongo2
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--auth", "--keyFile", "/etc/mongodb-keyfile/keyfile"]
+    ports: ["27218:27017"]
+    volumes: ["mongo2_data:/data/db", "lab13_keyfile:/etc/mongodb-keyfile:ro"]
+    networks: [lab13-net]
+    depends_on:
+      keyfile-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  mongo3:
+    image: mongo:7
+    container_name: lab13-mongo-3
+    hostname: mongo3
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--auth", "--keyFile", "/etc/mongodb-keyfile/keyfile"]
+    ports: ["27219:27017"]
+    volumes: ["mongo3_data:/data/db", "lab13_keyfile:/etc/mongodb-keyfile:ro"]
+    networks: [lab13-net]
+    depends_on:
+      keyfile-init:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  exporter:
+    image: percona/mongodb_exporter:0.40
+    container_name: lab13-mongodb-exporter
+    profiles: ["monitoring"]
+    command: ["--mongodb.uri=mongodb://${MONGO_ADMIN_USERNAME:-admin}:${MONGO_ADMIN_PASSWORD}@mongo1:27017/admin?authSource=admin&replicaSet=rs0"]
+    ports: ["9216:9216"]
+    networks: [lab13-net]
+    depends_on: [mongo1]
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.54.1
+    container_name: lab13-prometheus
+    profiles: ["monitoring"]
+    ports: ["9091:9090"]
+    volumes: ["./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml:ro"]
+    networks: [lab13-net]
+    depends_on: [exporter]
+    restart: unless-stopped
+
+volumes:
+  mongo1_data:
+  mongo2_data:
+  mongo3_data:
+  lab13_keyfile:
+
+networks:
+  lab13-net:
+    name: lab13-net
+    driver: bridge

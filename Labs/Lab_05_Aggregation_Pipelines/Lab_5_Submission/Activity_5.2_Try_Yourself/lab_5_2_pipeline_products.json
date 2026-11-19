@@ -1,0 +1,44 @@
+[
+  {
+    "product_id": "P001",
+    "name": "Laptop Stand",
+    "category": "Accessories",
+    "base_price": 45.0
+  },
+  {
+    "product_id": "P002",
+    "name": "Wireless Mouse",
+    "category": "Electronics",
+    "base_price": 25.0
+  },
+  {
+    "product_id": "P003",
+    "name": "USB Hub",
+    "category": "Electronics",
+    "base_price": 18.0
+  },
+  {
+    "product_id": "P004",
+    "name": "Keyboard",
+    "category": "Electronics",
+    "base_price": 75.0
+  },
+  {
+    "product_id": "P005",
+    "name": "Monitor",
+    "category": "Electronics",
+    "base_price": 180.0
+  },
+  {
+    "product_id": "P006",
+    "name": "Webcam",
+    "category": "Electronics",
+    "base_price": 55.0
+  },
+  {
+    "product_id": "P007",
+    "name": "Drawing Tablet",
+    "category": "Accessories",
+    "base_price": 120.0
+  }
+]

@@ -1,0 +1,19 @@
+services:
+  lab9-runner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: udayajuluri/mongodb-lab9:latest
+    container_name: lab9-runner
+    environment:
+      REPLICA_SET_URI: "mongodb://mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017/?replicaSet=rs0&serverSelectionTimeoutMS=10000"
+      DOC_COUNT: "1000"
+    networks:
+      - lab8-network
+    profiles: [benchmark]
+
+networks:
+  lab8-network:
+    external: true
+    name: lab-8_lab8-net
+

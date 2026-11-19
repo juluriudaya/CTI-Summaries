@@ -1,0 +1,67 @@
+﻿services:
+  # Original MongoDB - preserved as backup
+  mongo:
+    image: mongo:7
+    container_name: cti-mongo
+    restart: unless-stopped
+    command: ["mongod", "--bind_ip_all"]
+    volumes:
+      - cti_mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 20s
+    networks:
+      - cti-net
+
+  # Dashboard - connected to shared replica set
+  dashboard:
+    build: .
+    image: ${DOCKERHUB_USERNAME:-your-dockerhub-username}/cti-fusion-center:latest
+    container_name: cti-dashboard
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: "mongodb://mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017/?replicaSet=rs0"
+      MONGODB_DB: cyber_threat_intelligence
+      SYNC_INTERVAL_SECONDS: ${SYNC_INTERVAL_SECONDS:-21600}
+      MALWAREBAZAAR_AUTH_KEY: ${MALWAREBAZAAR_AUTH_KEY:-}
+    ports:
+      - "8501:8501"
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8501/_stcore/health', timeout=3).read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    networks:
+      - cti-net
+      - lab8shared
+
+  # Scheduler - connected to shared replica set
+  scheduler:
+    build: .
+    image: ${DOCKERHUB_USERNAME:-your-dockerhub-username}/cti-fusion-center:latest
+    container_name: cti-scheduler
+    command: ["python", "scheduler.py"]
+    restart: unless-stopped
+    environment:
+      MONGODB_URI: "mongodb://mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017/?replicaSet=rs0"
+      MONGODB_DB: cyber_threat_intelligence
+      SYNC_INTERVAL_SECONDS: ${SYNC_INTERVAL_SECONDS:-21600}
+      MALWAREBAZAAR_AUTH_KEY: ${MALWAREBAZAAR_AUTH_KEY:-}
+    networks:
+      - cti-net
+      - lab8shared
+
+volumes:
+  cti_mongo_data:
+
+networks:
+  cti-net:
+    driver: bridge
+
+  lab8shared:
+    external: true
+    name: lab-8_lab8-net

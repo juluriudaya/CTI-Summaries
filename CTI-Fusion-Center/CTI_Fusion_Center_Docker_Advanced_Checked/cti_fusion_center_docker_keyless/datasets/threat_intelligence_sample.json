@@ -1,0 +1,72 @@
+[
+  {
+    "threat_id": "THREAT-2026-0001",
+    "threat_type": "Ransomware",
+    "malware_family": "LockBit 3.0",
+    "cve_id": "CVE-2023-38831",
+    "indicator": "194.26.29.42",
+    "indicator_type": "IPv4",
+    "severity": "CRITICAL",
+    "confidence": 0.95,
+    "from_source": "OpenPhish",
+    "target_sector": "Healthcare",
+    "is_false_positive": false,
+    "created_at": "2026-11-10T08:15:30Z"
+  },
+  {
+    "threat_id": "THREAT-2026-0002",
+    "threat_type": "Botnet",
+    "malware_family": "QakBot / Pinkslipbot",
+    "cve_id": "CVE-2024-21413",
+    "indicator": "malware-delivery-cdn[.]com",
+    "indicator_type": "Domain",
+    "severity": "HIGH",
+    "confidence": 0.88,
+    "from_source": "Feodo Tracker",
+    "target_sector": "Financial Services",
+    "is_false_positive": false,
+    "created_at": "2026-11-11T12:44:10Z"
+  },
+  {
+    "threat_id": "THREAT-2026-0003",
+    "threat_type": "Phishing",
+    "malware_family": "EvilProxy",
+    "cve_id": "CVE-2023-23397",
+    "indicator": "https://auth-microsoft-verification[.]info/login",
+    "indicator_type": "URL",
+    "severity": "HIGH",
+    "confidence": 0.92,
+    "from_source": "CTI Digest",
+    "target_sector": "Technology",
+    "is_false_positive": false,
+    "created_at": "2026-11-12T14:20:05Z"
+  },
+  {
+    "threat_id": "THREAT-2026-0004",
+    "threat_type": "Malware",
+    "malware_family": "AsyncRAT",
+    "cve_id": "CVE-2024-3400",
+    "indicator": "a3f5b78912e8c456df7890123456789abcdef0123456789abcdef0123456789a",
+    "indicator_type": "SHA-256",
+    "severity": "MEDIUM",
+    "confidence": 0.76,
+    "from_source": "MalwareBazaar",
+    "target_sector": "Manufacturing",
+    "is_false_positive": false,
+    "created_at": "2026-11-13T09:11:45Z"
+  },
+  {
+    "threat_id": "THREAT-2026-0005",
+    "threat_type": "DDoS",
+    "malware_family": "Mirai Variant",
+    "cve_id": "CVE-2023-1389",
+    "indicator": "104.21.45.19",
+    "indicator_type": "IPv4",
+    "severity": "LOW",
+    "confidence": 0.22,
+    "from_source": "Community Honeypot AS9921",
+    "target_sector": "Retail",
+    "is_false_positive": true,
+    "created_at": "2026-11-14T19:30:00Z"
+  }
+]

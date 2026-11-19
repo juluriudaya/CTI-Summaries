@@ -1,0 +1,30 @@
+[
+  {
+    "document_id": "CTI-KB-101",
+    "title": "Threat Actor Profile: APT29 / Midnight Blizzard",
+    "topic": "Advanced Persistent Threat",
+    "content": "APT29 (also known as Midnight Blizzard, Nobelium, Cozy Bear) is a sophisticated cyber espionage group attributed to the Russian Foreign Intelligence Service (SVR). They specialize in long-term intelligence collection operations, focusing on government entities, foreign affairs ministries, and cloud infrastructure providers. Techniques include OAuth application abuse, password spraying, supply-chain infiltration, and utilizing residential proxies to disguise operational traffic. In recent campaigns, they leveraged dormant service accounts lacking multi-factor authentication to compromise enterprise email environments.",
+    "tags": ["APT29", "Midnight Blizzard", "OAuth Abuse", "Cloud Security", "Espionage"]
+  },
+  {
+    "document_id": "CTI-KB-102",
+    "title": "LockBit 3.0 Ransomware Execution and Defense Mechanisms",
+    "topic": "Ransomware and Extortion",
+    "content": "LockBit 3.0 operates on a Ransomware-as-a-Service (RaaS) model. The malware employs multithreaded encryption using AES-256 and RSA-4096 algorithms, appending randomized extension strings to encrypted files. Prior to file encryption, the payload executes anti-analysis routines: disabling Windows Defender via PowerShell, deleting volume shadow copies via vssadmin, and terminating database services including MSSQL and MongoDB. Exfiltration occurs through proprietary StealBit tools communicating to hardcoded command-and-control IP addresses over TLS.",
+    "tags": ["LockBit", "Ransomware", "RaaS", "StealBit", "C2 Infrastructure"]
+  },
+  {
+    "document_id": "CTI-KB-103",
+    "title": "CISA Known Exploited Vulnerabilities - Strategic Mitigation",
+    "topic": "Vulnerability Management",
+    "content": "The CISA KEV catalog maintains a verified registry of software vulnerabilities actively targeted by threat actors in the wild. Federal agencies and enterprise security operations centers prioritize patching KEV vulnerabilities over theoretical high-CVSS flaws lacking active weaponization. Effective mitigation workflows require automating feed ingestion into centralized NoSQL databases, executing cross-source correlation with endpoint asset inventories, and enforcing automated patch deployment within 14 days of catalog addition.",
+    "tags": ["CISA KEV", "Vulnerability Management", "SOC Automation", "Patching SLA"]
+  },
+  {
+    "document_id": "CTI-KB-104",
+    "title": "Botnet Command and Control Detection via Feodo Tracker",
+    "topic": "Botnets and Trojans",
+    "content": "Feodo Tracker provides high-confidence tracking of active command-and-control (C2) servers associated with Dridex, Emotet, TrickBot, and QakBot banking trojans. Botnet nodes typically communicate over non-standard HTTP/HTTPS ports (such as 443, 8080, and 2222) using rapid domain fluxing or bulletproof hosting providers. Blocking Feodo-flagged IP addresses at enterprise border firewalls and egress proxies neutralizes secondary malware payload downloads.",
+    "tags": ["Feodo Tracker", "Botnet C2", "Banking Trojans", "Network Defense"]
+  }
+]

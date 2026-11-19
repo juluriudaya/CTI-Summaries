@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  cti-chat-bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: cti-chat-bot
+    restart: unless-stopped
+    ports:
+      - "8503:8503"
+      - "8005:8005"
+    environment:
+      - MONGO_URI=mongodb://host.docker.internal:27017
+      - MONGO_DB=llm_threat_intel
+      - BACKEND_URL=http://localhost:8005
+      - OLLAMA_BASE_URL=http://host.docker.internal:11434
+    extra_hosts:
+      - "host.docker.internal:host-gateway"

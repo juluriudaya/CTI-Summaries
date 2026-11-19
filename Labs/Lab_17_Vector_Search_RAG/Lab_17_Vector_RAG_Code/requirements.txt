@@ -1,0 +1,5 @@
+pymongo>=4.6,<5
+numpy>=1.26
+rich>=13.7,<15
+# Optional, only if you extend Lab 17.1 to use Voyage AI:
+voyageai>=0.3

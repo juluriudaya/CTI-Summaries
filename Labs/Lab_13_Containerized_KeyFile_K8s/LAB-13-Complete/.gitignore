@@ -1,0 +1,4 @@
+.env
+Lab-13.2/k8s/keyfile
+__pycache__/
+*.pyc

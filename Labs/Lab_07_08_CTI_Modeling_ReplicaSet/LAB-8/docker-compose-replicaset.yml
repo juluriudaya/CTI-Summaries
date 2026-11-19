@@ -1,0 +1,62 @@
+﻿services:
+  mongo-rs0-1:
+    image: mongo:7
+    container_name: mongo-rs0-1
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports:
+      - "27117:27017"
+    volumes:
+      - rs0_data1:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 15s
+    restart: unless-stopped
+    networks: [lab8-net]
+
+  mongo-rs0-2:
+    image: mongo:7
+    container_name: mongo-rs0-2
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports:
+      - "27118:27017"
+    volumes:
+      - rs0_data2:/data/db
+    restart: unless-stopped
+    networks: [lab8-net]
+
+  mongo-rs0-3:
+    image: mongo:7
+    container_name: mongo-rs0-3
+    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    ports:
+      - "27119:27017"
+    volumes:
+      - rs0_data3:/data/db
+    restart: unless-stopped
+    networks: [lab8-net]
+
+  observer:
+    build: .
+    image: udayajuluri/mongodb-replica-observer:latest
+    container_name: lab8-observer
+    environment:
+      REPLICA_SET_URI: "mongodb://mongo-rs0-1:27017,mongo-rs0-2:27017,mongo-rs0-3:27017/?replicaSet=rs0&serverSelectionTimeoutMS=10000"
+      OBSERVE_INTERVAL: "5"
+    restart: unless-stopped
+    depends_on:
+      mongo-rs0-1:
+        condition: service_healthy
+    networks: [lab8-net]
+
+volumes:
+  rs0_data1:
+  rs0_data2:
+  rs0_data3:
+
+networks:
+  lab8-net:
+    driver: bridge
+

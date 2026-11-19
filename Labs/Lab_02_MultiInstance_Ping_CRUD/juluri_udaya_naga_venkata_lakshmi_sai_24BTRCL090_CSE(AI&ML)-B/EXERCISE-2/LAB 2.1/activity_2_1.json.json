@@ -1,0 +1,14 @@
+{
+    "activity": "2.1",
+    "description": "Compare MongoDB Atlas and Docker MongoDB server versions using server_info()",
+    "atlas": {
+        "server_version": "8.3.7"
+    },
+    "docker": {
+        "server_version": "8.3.7"
+    },
+    "comparison": {
+        "same_version": true,
+        "result": "Both MongoDB servers have the same version."
+    }
+}

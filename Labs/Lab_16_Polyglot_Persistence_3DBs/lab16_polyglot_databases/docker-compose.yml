@@ -1,0 +1,27 @@
+services:
+  mongodb:
+    image: mongo:7
+    container_name: lab16-mongodb
+    restart: unless-stopped
+    ports:
+      - "27017:27017"
+    volumes:
+      - lab16_mongo_data:/data/db
+
+  # Optional graph database for live Cypher traversal in Lab 16.2.
+  neo4j:
+    image: neo4j:5
+    container_name: lab16-neo4j
+    profiles: ["neo4j"]
+    restart: unless-stopped
+    ports:
+      - "7474:7474"
+      - "7687:7687"
+    environment:
+      NEO4J_AUTH: neo4j/change_this_password
+    volumes:
+      - lab16_neo4j_data:/data
+
+volumes:
+  lab16_mongo_data:
+  lab16_neo4j_data:
